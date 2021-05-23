@@ -33,15 +33,25 @@ resources = {
 # TODO: 1. Print report of all coffee machine resources
 # TODO: 2. Check resources are sufficient to make drink order
 
+# Global variables
+turn_off = False
+water_level = resources["water"]
+milk_level = resources["milk"]
+coffee_level = resources["coffee"]
+money_ammount = 0
+
 # Functions
 def check_selection(selection):
     """Checks user user selection"""
     if selection == "espresso":
-        print("Espresso")
+        if (check_resources_sufficient(selection)):
+            print("Making an espresso")
     elif selection == "latte":
-        print("Latte")
+        if (check_resources_sufficient(selection)):
+            print("Making a latte")
     elif selection == "cappuccino":
-        print("Cappuccino")
+        if (check_resources_sufficient(selection)):
+            print("Making a cappuccino")
     elif selection == "off":
         globals()["turn_off"] = True
         print("Switching off the coffee machine...")
@@ -56,12 +66,24 @@ def print_report():
     print(f"Coffee: {coffee_level}")
     print(f"Money: {money_ammount}")
 
-# Global variables
-turn_off = False
-water_level = resources["water"]
-milk_level = resources["milk"]
-coffee_level = resources["coffee"]
-money_ammount = 0
+def check_resources_sufficient(selection):
+    """Checks the resources of user's selection"""
+    def print_out_of_resources(resource):
+        """Prints the out of resources message"""
+        print(f"Sorry, there is not enough {resource}")
+
+    if water_level < MENU[selection]["ingredients"]["water"]:
+        print_out_of_resources("water")
+        globals()["turn_off"] = True
+    elif selection != "espresso" and milk_level < MENU[selection]["ingredients"]["milk"]:
+        print_out_of_resources("milk")
+        globals()["turn_off"] = True
+    elif coffee_level < MENU[selection]["ingredients"]["coffee"]:
+        print_out_of_resources("coffee")
+        globals()["turn_off"] = True
+    else:
+        return True
+    
 
 # Main program
 while not turn_off:

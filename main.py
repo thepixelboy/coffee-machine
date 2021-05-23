@@ -42,6 +42,7 @@ turn_off = False
 water_level = resources["water"]
 milk_level = resources["milk"]
 coffee_level = resources["coffee"]
+inserted_money = 0
 money_ammount = 0
 
 # Functions
@@ -59,15 +60,18 @@ def check_selection(selection):
     if selection == "espresso":
         if (check_resources_sufficient(selection)):
             process_coins()
-            print(money_ammount)
+            if check_transaction_successful(selection):
+                print(money_ammount)
     elif selection == "latte":
         if (check_resources_sufficient(selection)):
             process_coins()
-            print(money_ammount)
+            if check_transaction_successful(selection):
+                print(money_ammount)
     elif selection == "cappuccino":
         if (check_resources_sufficient(selection)):
             process_coins()
-            print(money_ammount)
+            if check_transaction_successful(selection):
+                print(money_ammount)
     elif selection == "off":
         globals()["turn_off"] = True
         print("Switching off the coffee machine...")
@@ -101,16 +105,38 @@ def check_resources_sufficient(selection):
         return True
     
 def process_coins():
+    """Ask the user to insert coins to pay the selection and adds them to the money_ammount variable"""
     quarters = float(input("How many quarters? "))
     dimes = float(input("How many dimes? "))
     nickles = float(input("How many nickles? "))
     pennies = float(input("How many pennies? "))
 
-    globals()["money_ammount"] = round((quarters * 0.25) + (dimes * 0.10) + (nickles * 0.05) + (pennies * 0.01), 2)
+    globals()["inserted_money"] = round((quarters * 0.25) + (dimes * 0.10) + (nickles * 0.05) + (pennies * 0.01), 2)
+
+def check_transaction_successful(selection):
+    """Checks if the inserted coins are enough to pay for the selection"""
+    inserted_money = globals()["inserted_money"]
+    selection_cost = MENU[selection]["cost"]
+    change = 0
+
+    if inserted_money < selection_cost:
+        print("Sorry, that's not enough money. Money refunded")
+        inserted_money = 0
+        return False
+    elif inserted_money == selection_cost:
+        globals()["money_ammount"] = inserted_money
+        return True
+    else:
+        change = round(inserted_money - selection_cost, 2)
+        globals()["money_ammount"] =+ selection_cost
+        print(f"Here is ${change} dollars in change.")
+        return True
+        
 
 # Main program
+clrscr() 
+
 while not turn_off:
-    
     selection = input("What would you like? (espresso/latte/cappuccino): ")
 
     check_selection(selection)

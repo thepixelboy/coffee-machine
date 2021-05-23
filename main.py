@@ -57,26 +57,16 @@ def clrscr():
     
 def check_selection(selection):
     """Checks user user selection"""
-    if selection == "espresso":
+    if selection == "espresso" or selection == "latte" or selection == "cappuccino":
         if (check_resources_sufficient(selection)):
             process_coins()
             if check_transaction_successful(selection):
                 make_coffee(selection)
-    elif selection == "latte":
-        if (check_resources_sufficient(selection)):
-            process_coins()
-            if check_transaction_successful(selection):
-                make_coffee(selection)
-    elif selection == "cappuccino":
-        if (check_resources_sufficient(selection)):
-            process_coins()
-            if check_transaction_successful(selection):
-                make_coffee(selection)
+    elif selection == "report":
+        print_report()
     elif selection == "off":
         globals()["turn_off"] = True
         print("Switching off the coffee machine...")
-    elif selection == "report":
-        print_report()
 
 def print_report():
     """Prints the values of all resources on the Coffee Machine"""    

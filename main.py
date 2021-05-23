@@ -133,6 +133,7 @@ def check_transaction_successful(selection):
         return True
 
 def make_coffee(selection):
+    """Makes a coffee based on the user's selection"""
     if selection == "espresso":
         globals()["water_level"] -= MENU[selection]["ingredients"]["water"]
         globals()["coffee_level"] -= MENU[selection]["ingredients"]["coffee"]

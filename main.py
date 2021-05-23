@@ -1,3 +1,7 @@
+# Imports
+import os
+
+# Data
 MENU = {
     "espresso": {
         "ingredients": {
@@ -41,17 +45,29 @@ coffee_level = resources["coffee"]
 money_ammount = 0
 
 # Functions
+def clrscr():
+    """Clears the screen"""
+    # Check if Operating System is Mac and Linux or Windows
+    if os.name == 'posix':
+      _ = os.system('clear')
+    else:
+      # Else Operating System is Windows (os.name = nt)
+      _ = os.system('cls')
+    
 def check_selection(selection):
     """Checks user user selection"""
     if selection == "espresso":
         if (check_resources_sufficient(selection)):
-            print("Making an espresso")
+            process_coins()
+            print(money_ammount)
     elif selection == "latte":
         if (check_resources_sufficient(selection)):
-            print("Making a latte")
+            process_coins()
+            print(money_ammount)
     elif selection == "cappuccino":
         if (check_resources_sufficient(selection)):
-            print("Making a cappuccino")
+            process_coins()
+            print(money_ammount)
     elif selection == "off":
         globals()["turn_off"] = True
         print("Switching off the coffee machine...")
@@ -84,9 +100,17 @@ def check_resources_sufficient(selection):
     else:
         return True
     
+def process_coins():
+    quarters = float(input("How many quarters? "))
+    dimes = float(input("How many dimes? "))
+    nickles = float(input("How many nickles? "))
+    pennies = float(input("How many pennies? "))
+
+    globals()["money_ammount"] = round((quarters * 0.25) + (dimes * 0.10) + (nickles * 0.05) + (pennies * 0.01), 2)
 
 # Main program
 while not turn_off:
+    
     selection = input("What would you like? (espresso/latte/cappuccino): ")
 
     check_selection(selection)

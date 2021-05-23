@@ -61,17 +61,17 @@ def check_selection(selection):
         if (check_resources_sufficient(selection)):
             process_coins()
             if check_transaction_successful(selection):
-                print(money_ammount)
+                make_coffee(selection)
     elif selection == "latte":
         if (check_resources_sufficient(selection)):
             process_coins()
             if check_transaction_successful(selection):
-                print(money_ammount)
+                make_coffee(selection)
     elif selection == "cappuccino":
         if (check_resources_sufficient(selection)):
             process_coins()
             if check_transaction_successful(selection):
-                print(money_ammount)
+                make_coffee(selection)
     elif selection == "off":
         globals()["turn_off"] = True
         print("Switching off the coffee machine...")
@@ -81,10 +81,10 @@ def check_selection(selection):
 def print_report():
     """Prints the values of all resources on the Coffee Machine"""    
     print("Resource Level --------------------")
-    print(f"Water: {water_level}")
-    print(f"Milk: {milk_level}")
-    print(f"Coffee: {coffee_level}")
-    print(f"Money: {money_ammount}")
+    print(f"Water: {water_level}ml")
+    print(f"Milk: {milk_level}ml")
+    print(f"Coffee: {coffee_level}g")
+    print(f"Money: ${money_ammount}")
 
 def check_resources_sufficient(selection):
     """Checks the resources of user's selection"""
@@ -128,10 +128,20 @@ def check_transaction_successful(selection):
         return True
     else:
         change = round(inserted_money - selection_cost, 2)
-        globals()["money_ammount"] =+ selection_cost
+        globals()["money_ammount"] += selection_cost
         print(f"Here is ${change} dollars in change.")
         return True
-        
+
+def make_coffee(selection):
+    if selection == "espresso":
+        globals()["water_level"] -= MENU[selection]["ingredients"]["water"]
+        globals()["coffee_level"] -= MENU[selection]["ingredients"]["coffee"]
+    else:
+        globals()["water_level"] -= MENU[selection]["ingredients"]["water"]
+        globals()["milk_level"] -= MENU[selection]["ingredients"]["milk"]
+        globals()["coffee_level"] -= MENU[selection]["ingredients"]["coffee"]
+
+    print(f"Here is your {selection}. Enjoy!")
 
 # Main program
 clrscr() 

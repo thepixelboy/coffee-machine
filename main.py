@@ -46,10 +46,23 @@ def check_selection(selection):
         globals()["turn_off"] = True
         print("Switching off the coffee machine...")
     elif selection == "report":
-        print("Report:")
+        check_resources()
+
+def check_resources():
+    """Checks the values of all the resources on the Coffee Machine"""
+    
+    print("Resource Level --------------------")
+    print(f"Water: {water_level}")
+    print(f"Milk: {milk_level}")
+    print(f"Coffee: {coffee_level}")
+    print(f"Money: {money_ammount}")
 
 # Global variables
 turn_off = False
+water_level = resources["water"]
+milk_level = resources["milk"]
+coffee_level = resources["coffee"]
+money_ammount = 0
 
 # Main program
 while not turn_off:

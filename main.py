@@ -46,11 +46,10 @@ def check_selection(selection):
         globals()["turn_off"] = True
         print("Switching off the coffee machine...")
     elif selection == "report":
-        check_resources()
+        print_report()
 
-def check_resources():
-    """Checks the values of all the resources on the Coffee Machine"""
-    
+def print_report():
+    """Prints the values of all resources on the Coffee Machine"""    
     print("Resource Level --------------------")
     print(f"Water: {water_level}")
     print(f"Milk: {milk_level}")
